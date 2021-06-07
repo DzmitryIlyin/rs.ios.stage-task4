@@ -85,28 +85,28 @@ extension CallStation: Station {
             }
             
         case .answer(let user):
-            let currentCall = currentCall(user: user)
-            currentUserType = userType(currentCall!, user)
+            let thisCall = currentCall(user: user)
+            currentUserType = userType(thisCall!, user)
             
             if areAllUsersAdded(incomingUser: currentUserType.incomingUser!, outgoingUser: currentUserType.outgoingUser!) {
                 status = .talk
             }
             
-            callID = currentCall?.id
+            callID = thisCall?.id
             
         case .end(let user):
-            let currentCall = currentCall(user: user)
-            currentUserType = userType(currentCall!, user)
+            let thisCall = currentCall(user: user)
+            currentUserType = userType(thisCall!, user)
             
-            if currentCall?.status == .calling {
+            if thisCall?.status == .calling {
                 status = .ended(reason: .cancel)
-            } else if currentCall?.status == .talk {
+            } else if thisCall?.status == .talk {
                 status = .ended(reason: .end)
-            } else if currentCall == nil {
+            } else if thisCall == nil {
                 status = .ended(reason: .userBusy)
             }
             
-            callID = currentCall?.id
+            callID = thisCall?.id
             
         }
         
